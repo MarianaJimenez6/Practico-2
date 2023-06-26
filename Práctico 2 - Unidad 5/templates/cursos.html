@@ -1,0 +1,29 @@
+
+{% block title %} Cursos {% endblock %}
+<link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+{% block content %}
+  <h1> Cursos a cargo </h1>
+    </hr>
+    <div class="container">
+    <body> 
+    <form action="/RegistroAsistencia/" method="post">
+    <label for = "curso"> Clase: </label><br>
+      <select name = "curso">
+      {% for curso in cursos %}
+        <option value="{{curso.id}}"> 
+          id: {{curso.id}}, año: {{curso.anio}}, division: {{curso.division}} 
+        </option>
+      {% endfor %}
+      </select><br>
+      <label for = "clase"> Código de clase: </label><br>
+      <select name = "codigoClase">
+      <option value="1"> 1: Clase de aula </option>
+      <option value="2"> 2: Clase de eduación física </option>
+    </select><br>
+    <label for="fecha">Fecha: </label>
+    <input type="date" id="fecha" name="fecha"><br>
+    <input type="submit" value="Buscar "/>
+    </form>
+    </body>
+    </div>
+{% endblock %}

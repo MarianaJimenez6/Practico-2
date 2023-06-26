@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title> Asistencias </title>
+  <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+</head>
+<body>
+  <form action="/RegistroAsistencia/" method="post">
+  <table>  
+  <thead>
+  <tr>
+    <th> Alumno: </th>
+    <th> Cantidad de clases de aula presente: </th>
+    <th> Cantidad de clases de educación física presente: </th>
+    <th> Cantidad de clases de aula ausente justificadas: </th>
+    <th> Cantidad de clases a clases de aula ausente injustificadas: </th>
+    <th> Cantidad de clases de educación física ausente justificadas: </th>
+    <th> Cantidad de clases a clases de educación física injustificadas: </th>
+    <th> Cantidad total de inasistencias: </th>
+  </tr>
+  </thead>
+  {% for estudiante in estudiantes %}
+    {%set contador = {
+      'asistenciaAula': 0,
+      'asistenciaEduFisica': 0,
+      'justificadaAula': 0,
+      'injustificadaAula': 0,
+      'justificadaEduFisica': 0,
+      'injustificadaEduFisica': 0,
+      'total': 0
+    } %}
+
+    {% for asistencia in asistencias %}
+      {% if asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoClase == 1 %}
+        {% set _ = contador.update({'asistenciaAula': contador.asistenciaAula +1}) %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoClase == 2 %}
+        {% set _ = contador.update({'asistenciaEduFisica': contador.asistenciaEduFisica +1}) %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 1 and asistencia.justificacion != '' %}
+        {% set _ = contador.update({'justificadaAula': contador.justificadaAula +1}) %}
+        {% set _ = contador.update({'total': contador.total +1}) %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 2 and asistencia.justificacion != '' %}
+        {% set _ = contador.update({'justificadaEduFisica': contador.justificadaEduFisica +1}) %}
+        {% set _ = contador.update({'total': contador.total +1}) %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 1 and asistencia.justificacion == '' %}
+        {% set _ = contador.update({'injustificadaAula': contador.injustificadaAula +1}) %}
+        {% set _ = contador.update({'total': contador.total +1}) %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 2 and asistencia.justificacion == '' %}
+        {% set _ = contador.update({'injustificadaEduFisica': contador.injustificadaEduFisica +1}) %}
+        {% set _ = contador.update({'total': contador.total +1}) %}
+      {% endif %}
+    {% endfor %}
+
+    <tr style="text-align: center;">
+      <td>{{estudiante.nombre}} {{estudiante.apellido}}</td>
+      <td>{{contador.asistenciaAula}}</td>
+      <td>{{contador.asistenciaEduFisica}}</td>
+      <td>{{contador.justificadaAula}}</td>
+      <td>{{contador.injustificadaAula}}</td>
+      <td>{{contador.justificadaEduFisica}}</td>
+      <td>{{contador.injustificadaEduFisica}}</td>
+      <td>{{contador.total}}</td>
+    </tr>
+  {% endfor %}
+  </table>
+  <a href="/inicio/"> Volver a inicio </a>
+</form>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+<body>
+  <h3>Ingresar al sistema del colegio San Miguel</h3>
+  <hr/>
+  <form action="/RegistrarAsistencia3/" method="post">
+
+  <table>
+  <thead>
+    <tr>
+      <th> Apellido: </th>
+      <th> Nombre: </th>
+      <th> DNI: </th>
+      <th> Asistencia: </th>
+      <th> Justificacion: </th>
+    </tr>
+  </thead>
+  {% for estudiante in estudiantes %}
+    <tr>
+      <td> {{estudiante.apellido}} </td>
+      <td> {{estudiante.nombre}} </td>
+      <td> {{estudiante.dni}} </td>
+      <td>
+        <select name = "asistio[]">
+          <option value="s"> Si asistió </option>
+          <option value="n"> No asistió </option>
+        </select><br> 
+      </td>
+      <td>
+        <input type="text" name ="justificacion[]"/>
+      </td>
+      <input type="hidden" name="idestudiante[]" value="{{estudiante.id}}"/>
+        </tr>
+  {% endfor %}
+  </table>
+  <input type="hidden" name="fecha" value="{{fecha}}"/>
+  <!-- <input type="hidden" name="curso" value="{{curso}}"/> -->
+  <input type="hidden" name="codigoClase" value="{{codigoClase}}"/>
+  <input type="submit" value="Registrar asistencia"/> 
+  <footer><a href="/LogIn/"> Volver a inicio </a></footer>
+  </form>
+  </body>
+</html>

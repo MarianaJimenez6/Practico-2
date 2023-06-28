@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <img src="{{url_for('static', filename= 'logo.png')}}" width="150" height="70" style="float : right;">
   <title> Asistencias </title>
   <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
 </head>
@@ -10,13 +11,13 @@
   <thead>
   <tr>
     <th> Alumno: </th>
-    <th> Cantidad de clases de aula presente: </th>
-    <th> Cantidad de clases de educación física presente: </th>
-    <th> Cantidad de clases de aula ausente justificadas: </th>
-    <th> Cantidad de clases a clases de aula ausente injustificadas: </th>
-    <th> Cantidad de clases de educación física ausente justificadas: </th>
-    <th> Cantidad de clases a clases de educación física injustificadas: </th>
-    <th> Cantidad total de inasistencias: </th>
+    <th> Clases de aula presente: </th>
+    <th> Clases de educación física presente: </th>
+    <th> Clases de aula ausente justificadas: </th>
+    <th> Clases a clases de aula ausente injustificadas: </th>
+    <th> Clases de educación física ausente justificadas: </th>
+    <th> Clases a clases de educación física injustificadas: </th>
+    <th> Total de inasistencias: </th>
   </tr>
   </thead>
   {% for estudiante in estudiantes %}
@@ -31,20 +32,20 @@
     } %}
 
     {% for asistencia in asistencias %}
-      {% if asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoClase == 1 %}
+      {% if asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoclase == 1 %}
         {% set _ = contador.update({'asistenciaAula': contador.asistenciaAula +1}) %}
-      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoClase == 2 %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 's' and asistencia.codigoclase == 2 %}
         {% set _ = contador.update({'asistenciaEduFisica': contador.asistenciaEduFisica +1}) %}
-      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 1 and asistencia.justificacion != '' %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoclase == 1 and asistencia.justificacion != '' %}
         {% set _ = contador.update({'justificadaAula': contador.justificadaAula +1}) %}
         {% set _ = contador.update({'total': contador.total +1}) %}
-      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 2 and asistencia.justificacion != '' %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoclase == 2 and asistencia.justificacion != '' %}
         {% set _ = contador.update({'justificadaEduFisica': contador.justificadaEduFisica +1}) %}
         {% set _ = contador.update({'total': contador.total +1}) %}
-      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 1 and asistencia.justificacion == '' %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoclase == 1 and asistencia.justificacion == '' %}
         {% set _ = contador.update({'injustificadaAula': contador.injustificadaAula +1}) %}
         {% set _ = contador.update({'total': contador.total +1}) %}
-      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoClase == 2 and asistencia.justificacion == '' %}
+      {% elif asistencia.idestudiante == estudiante.id and asistencia.asistio == 'n' and asistencia.codigoclase == 2 and asistencia.justificacion == '' %}
         {% set _ = contador.update({'injustificadaEduFisica': contador.injustificadaEduFisica +1}) %}
         {% set _ = contador.update({'total': contador.total +1}) %}
       {% endif %}

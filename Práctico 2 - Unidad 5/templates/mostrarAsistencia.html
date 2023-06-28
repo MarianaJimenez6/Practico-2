@@ -1,4 +1,6 @@
-{% block title %} Cursos {% endblock %}
+<!DOCTYPE html>
+<html>
+ {% block title %} Cursos {% endblock %}
 <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
 {% block content %}
 <img src="{{url_for('static', filename= 'logo.png')}}" width="150" height="70" style="float : right;">
@@ -6,15 +8,15 @@
     </hr>
     <div class="container">
     <body> 
-    <form action="/RegistroAsistencia/" method="post">
+    <form action="/MuestraAsistencia/" method="post">
     <label for = "curso"> Clase: </label><br>
-      <select name = "curso">
-      {% for curso in cursos %}
-        <option value="{{curso.id}}"> 
-          id: {{curso.id}}, año: {{curso.anio}}, division: {{curso.division}} 
-        </option>
-      {% endfor %}
-      </select><br>
+    <select name = "curso">
+    {% for curso in cursos %}
+       <option value="{{curso.id}}"> 
+        id: {{curso.id}}, año: {{curso.anio}}, division: {{curso.division}} 
+      </option>
+    {% endfor %}
+    </select><br>
       <label for = "clase"> Código de clase: </label><br>
       <select name = "codigoclase">
       <option value="1"> 1: Clase de aula </option>

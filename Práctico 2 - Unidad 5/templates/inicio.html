@@ -1,20 +1,22 @@
 <!DOCTYPE html>
 <html>
  <head>
+  <img src="{{url_for('static', filename= 'logo.png')}}" width="150" height="70" style="float : right;">
   <title>Inicio</title>
  </head>
- <body>
-  <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
-  {% block y %}
- {% if session.correo %}
- Usted se ha registrado como {{session.correo}} <br> 
- <ul>
-  <li><a href="/RegistrarAsistencia/">Registrar asistencia</a></li>
-  <li><a href="/cursosInforme/">Informe con detalles</a></li>
- </ul>
- {% else %}
- No se ha registrado. <a href="/LogIn/">Iniciar sesión</a>
- {% endif %}
+ <body style="background-color: #DFB887;">
+ <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+ {% block y %}
+  {% if session.correo %}
+   Usted se ha registrado como {{session.correo}} <br> 
+  <ul>
+   <li><a href="/RegistrarAsistencia/">Registrar asistencia</a></li>
+   <li><a href="/cursosInforme/">Informe con detalles</a></li>
+   <li><a href="/MostrarAsistencia/">Mostrar asistencias</a></li>
+  </ul>
+  {% else %}
+   No se ha registrado. <a href="/LogIn/">Iniciar sesión</a>
+  {% endif %}
  {% endblock %}
  <a href="/logOut/">Cerrar sesión</a>
  </body>

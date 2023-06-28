@@ -6,7 +6,7 @@ class Asistencia(db.Model):
     __tablename__ = 'asistencia'
     id = db.Column(db.Integer, primary_key = True)
     fecha = db.Column(db.String(80), nullable = False)
-    codigoClase = db.Column(db.String(80), nullable = False)
+    codigoclase = db.Column(db.String(80), nullable = False)
     asistio = db.Column(db.String(80), nullable = False)
     justificacion = db.Column(db.String(80), nullable = True)
     idestudiante = db.Column(db.String(80), nullable = False)

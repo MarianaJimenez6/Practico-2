@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
- <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
- <body>
+  <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+  <img src="{{url_for('static', filename= 'logo.png')}}" width="150" height="70" style="float : right;">
+  <body>
+  </script> 
   <h3>Ingresar al sistema del colegio San Miguel</h3>
   <hr/>
   <form action="/LogIn/" method="post">
-   <label for = "correo">Email</label><br>
-   <input type="text" name ="correo"/><br>
-   <label for = "clave">Contraseña</label><br>
-   <input type="password" name ="clave"/><br>
-   <input type="submit" value="Ingresar como preceptor"/>
+    <label for = "correo">Email</label><br>
+    <input type="text" name ="correo"/><br>
+    <label for = "clave">Contraseña</label><br>
+    <input type="password" name ="clave"/><br>
+    <input type="submit" value="Ingresar como preceptor"/>
   </form>
- </body>
+  </body>
 </html>

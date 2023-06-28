@@ -1,4 +1,3 @@
-from controladorAsistencias import Manejador as controlador_inasistencias
 from flask import Flask, render_template,request,redirect,session
 from flask_sqlalchemy import SQLAlchemy
 import hashlib
@@ -30,12 +29,7 @@ def registrar():
     correo = request.form.get("correo")
     contraseña = request.form['clave']
     clave = hashlib.md5(bytes(contraseña, encoding='utf-8'))
-    #prec = preceptor.query.filter(preceptor.correo == session["correo"], preceptor.clave == clave.hexdigest()).first()
     prec = preceptor.query.filter(preceptor.correo == session["correo"]).first()
-                
-    ''' serialized_cursos = [curso.to_dict() for curso in cursos]
-    session['cursos'] = serialized_cursos'''
-    # serialized_preceptor = prec.to_dict()
     session['nombre'] = prec.nombre
     session['apellido'] = prec.apellido
     session['idpreceptor'] = prec.id
@@ -58,11 +52,10 @@ def registrarAsistencia2():
   else:
     curso = request.form['curso']
     fecha = request.form['fecha']
-    codigoClase = request.form['codigoClase']
+    codigoclase = request.form['codigoclase']
     
-    #controlador_inasistencias.agregarAsistencia(curso,fecha,codigoClase)
     estudiantes = estudiante.query.filter(estudiante.idcurso == curso).order_by(estudiante.apellido).all()
-    return render_template ('registrarAsistencia.html', estudiantes = estudiantes, curso = curso, fecha = fecha, codigoClase = codigoClase)
+    return render_template ('registrarAsistencia.html', estudiantes = estudiantes, curso = curso, fecha = fecha, codigoclase = codigoclase)
   
 @app.route("/RegistrarAsistencia3/", methods=["POST", "GET"])
 def registrar3():
@@ -72,15 +65,35 @@ def registrar3():
     justificacion = request.form.getlist('justificacion[]')
     asistio = request.form.getlist('asistio[]')
     idestudiante = request.form.getlist('idestudiante[]')
-    codigoClase = request.form['codigoClase']
+    codigoclase = request.form['codigoclase']
     fecha = request.form['fecha']
-    #curso = request.form['curso']
     
     for i in range(len(asistio)):
-      unaAsistencia = asistencia(asistio = asistio[i], justificacion = justificacion[i], fecha = fecha, codigoClase = codigoClase, idestudiante = idestudiante[i])
+      unaAsistencia = asistencia(asistio = asistio[i], justificacion = justificacion[i], fecha = fecha, codigoclase = codigoclase, idestudiante = idestudiante[i])
       db.session.add(unaAsistencia)
     db.session.commit()
     return redirect ('/inicio/')
+
+@app.route("/MostrarAsistencia/", methods=["POST", "GET"])
+def mostrarAsistenciaRegistrada():
+  if not session.get("correo"):
+    redirect ("/")
+  else:
+    cursos = curso.query.filter(curso.idpreceptor == session.get("idpreceptor")).all()
+    return render_template('mostrarAsistencia.html', cursos = cursos)
+
+@app.route("/MuestraAsistencia/", methods=["POST", "GET"])
+def muestraAsistencias():
+  if not session.get("correo"):
+    redirect ("/")
+  else:
+    fecha = request.form['fecha']
+    curso = request.form['curso']
+    codigoclase = request.form['codigoclase']
+    pprint(fecha)
+    estudiantes = estudiante.query.filter(estudiante.idcurso == curso).order_by(estudiante.apellido).all()
+    asistencias = asistencia.query.filter(asistencia.codigoclase == codigoclase, asistencia.fecha == fecha).all()
+    return render_template('muestraAsistencia.html',asistencias = asistencias,estudiantes = estudiantes,fecha = fecha, curso = curso, codigoclase =codigoclase)
 
 @app.route('/cursosInforme/', methods=["POST", "GET"])
 def informe():
@@ -89,7 +102,7 @@ def informe():
   else:
     cursos = curso.query.filter(curso.idpreceptor == session.get("idpreceptor")).all()
     return render_template('cursosInforme.html', cursos = cursos)
-  
+
 @app.route("/InformeAsistencias/", methods=["POST", "GET"])
 def generarInforme():
   if not session.get("correo"):
@@ -98,11 +111,7 @@ def generarInforme():
     idcurso = request.form['idcurso']
     estudiantes = estudiante.query.filter(estudiante.idcurso == idcurso).order_by(estudiante.apellido).all()
     asistencias = asistencia.query.all()
-    pprint(asistencias[0].asistio)
-    pprint(asistencias[0].idestudiante)
-    pprint(asistencias[0].codigoClase)
     return render_template('informeAsistencias.html', estudiantes = estudiantes,asistencias = asistencias, idcurso = idcurso)
-
 
 @app.route('/logOut/')
 def logOut():

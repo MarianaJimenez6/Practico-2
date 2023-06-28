@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html>
   <link rel="stylesheet" href="{{url_for('static', filename= 'css/estilos.css')}}">
+  <img src="{{url_for('static', filename= 'logo.png')}}" width="150" height="70" style="float : right;">
 <body>
-  <h3>Ingresar al sistema del colegio San Miguel</h3>
+  <h3>Registrar asistencia</h3>
   <hr/>
-  <form action="/RegistrarAsistencia3/" method="post">
+  <form action="/MostrarAsistencia3/" method="post">
 
   <table>
   <thead>
@@ -36,7 +37,7 @@
   </table>
   <input type="hidden" name="fecha" value="{{fecha}}"/>
   <!-- <input type="hidden" name="curso" value="{{curso}}"/> -->
-  <input type="hidden" name="codigoClase" value="{{codigoClase}}"/>
+  <input type="hidden" name="codigoclase" value="{{codigoclase}}"/>
   <input type="submit" value="Registrar asistencia"/> 
   <footer><a href="/LogIn/"> Volver a inicio </a></footer>
   </form>
